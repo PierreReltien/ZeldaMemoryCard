@@ -25,6 +25,11 @@ function Home() {
     { id: 16, name: 'Zora', image: '/zora.svg' },
   ]);
 
+  const [pairsFound, setPairsFound] = useState(0);
+  const totalPairs = deck.length / 2;
+  const [moves, setMoves] = useState(0); // État pour suivre le nombre de mouvements
+  const [congratulationsDisplayed, setCongratulationsDisplayed] = useState(false);
+
   const shuffleDeck = () => {
     const shuffledDeck = [...deck];
     for (let i = shuffledDeck.length - 1; i > 0; i--) {
@@ -39,22 +44,51 @@ function Home() {
   }, []);
 
   const selectCard = (id) => {
-    if (selected.length === 2) {
-      // If two cards are already selected, do nothing
+    if (matched.includes(id)) {
+      // If the card is already matched, do nothing
       return;
     }
 
-setSelected([...selected, id]);
-if (selected.length === 1) {
-  // If it's the second card, check for a match
-  if (deck.find(card => card.id === selected[0]).name === deck.find(card => card.id === id).name) {
-    setMatched([...matched, selected[0], id]);
-  }
-  // Clear selected after a short delay
-  setTimeout(() => {
+    setSelected([...selected, id]);
+
+    if (selected.length === 1) {
+      const firstCard = deck.find(card => card.id === selected[0]);
+      const secondCard = deck.find(card => card.id === id);
+
+      if (firstCard.name === secondCard.name) {
+        // If the cards match, update matched and reset selected
+        setMatched([...matched, selected[0], id]);
+        setSelected([]);
+        setMoves(moves+1);
+      } else {
+        // If the cards don't match, reset selected after a delay
+        setTimeout(() => {
+          setSelected([]);
+        }, 1000);
+        setMoves(moves+1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!congratulationsDisplayed && matched.length === deck.length) {
+      // All pairs have been found, delay the congratulations message to give time for cards to flip
+      setTimeout(() => {
+        alert(`Congratulations! You've matched all the pairs with ${moves} moves!`);
+        setCongratulationsDisplayed(true);
+      }, 1000); // Adjust the delay time as needed
+    }
+  }, [matched, deck]);
+
+
+  const restartGame = () => {
+    // Réinitialiser les états
     setSelected([]);
-  }, 1000);
-}
+    setMatched([]);
+    setPairsFound(0);
+
+    // Mélanger à nouveau le deck de cartes
+    shuffleDeck();
   };
 
   const cardsToDisplay = deck.map((card) => {
@@ -74,17 +108,19 @@ if (selected.length === 1) {
     <div className={styles.home}>
       <div className={styles.header}>
         <h1 className={styles.headerTitle}>
-         Zelda Memory Game
+          Zelda Memory Game
         </h1>
         <div className={styles.headerDivider} />
+        <button className={styles.button} onClick={restartGame}>New Game</button>
+        <div className={styles.moves}>Moves: {moves}</div> {/* Afficher le nombre de mouvements */}
       </div>
 
-  <div className={styles.main}>
-    <div className={styles.grid}>
-      {cardsToDisplay}
+      <div className={styles.main}>
+        <div className={styles.grid}>
+          {cardsToDisplay}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   );
 }
 

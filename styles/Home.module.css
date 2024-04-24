@@ -40,3 +40,36 @@
   margin-top: 10px;
   /* Adjust the top margin */
 }
+
+.button {
+  background-color: #007bff; /* Couleur de fond */
+  border: none; /* Supprimer la bordure */
+  color: white; /* Couleur du texte */
+  padding: 15px 32px; /* Espacement autour du texte */
+  text-align: center; /* Centrer le texte */
+  text-decoration: none; /* Supprimer la décoration du texte */
+  display: inline-block; /* Afficher comme un bloc en ligne */
+  font-size: 16px; /* Taille de la police */
+  margin: 4px 2px; /* Marge autour du bouton */
+  cursor: pointer; /* Ajouter un pointeur au survol */
+  border-radius: 8px; /* Ajouter un rayon de bordure */
+  position: absolute; /* Position absolue */
+
+  z-index: 100; /* Z-index élevé pour être au-dessus des autres éléments */
+}
+
+/* Lorsque le bouton est survolé */
+.button:hover {
+  background-color: #0056b3; /* Couleur de fond plus sombre */
+}
+
+
+.moves {
+  position: absolute; /* Position absolue par rapport à la div home */
+  top: 10px; /* Distance par rapport au haut de la div home */
+  right: 10px; /* Distance par rapport à la droite de la div home */
+  background-color: #ffffff; /* Couleur de fond */
+  padding: 5px 10px; /* Espacement intérieur */
+  border-radius: 5px; /* Bordure arrondie */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}

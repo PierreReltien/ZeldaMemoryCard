@@ -87,6 +87,7 @@ function Home() {
     setMatched([]);
     setPairsFound(0);
     setMoves(0);
+    setCongratulationsDisplayed(false);
 
     // Mélanger à nouveau le deck de cartes
     shuffleDeck();
